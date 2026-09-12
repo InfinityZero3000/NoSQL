@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hệ thống quản lý nhân sự và dự án dùng MongoDB">
+  <title>HRM Console</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand" aria-label="HRM Console">
+      <span class="brand-mark">H</span>
+      <span><strong>HRM</strong><small>MongoDB Console</small></span>
+    </div>
+    <nav aria-label="Điều hướng chính">
+      <button class="nav-item active" data-view="dashboard">Tổng quan</button>
+      <button class="nav-item" data-view="employees">Nhân viên</button>
+      <button class="nav-item" data-view="projects">Dự án</button>
+    </nav>
+    <div class="db-status"><span></span> hrm_mongodb</div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">QUẢN TRỊ NHÂN SỰ</p>
+        <h1 id="page-title">Tổng quan</h1>
+      </div>
+      <time id="today"></time>
+    </header>
+
+    <section id="dashboard-view" class="view active">
+      <div class="section-heading">
+        <div>
+          <h2>Tình hình tổ chức</h2>
+          <p>Số liệu trực tiếp từ ba collection.</p>
+        </div>
+        <label class="control compact">Phòng ban
+          <select id="dashboard-department"><option value="">Tất cả phòng ban</option></select>
+        </label>
+      </div>
+
+      <div id="metrics" class="metrics" aria-live="polite"></div>
+
+      <div class="dashboard-grid">
+        <section class="panel wide">
+          <div class="panel-heading"><h3>Nhân viên theo phòng ban</h3><span>Aggregation</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Phòng ban</th><th>Nhân viên</th><th>Lương TB</th><th>Cao nhất</th><th>Thấp nhất</th></tr></thead>
+              <tbody id="department-stats"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h3>Năng lực đội ngũ</h3><span>Skills</span></div>
+          <div id="skill-stats" class="skills-chart"></div>
+        </section>
+      </div>
+
+      <section id="department-employees-panel" class="panel hidden">
+        <div class="panel-heading"><h3>Nhân viên trong phòng đã chọn</h3><span id="selected-department-label"></span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mã</th><th>Họ tên</th><th>Chức vụ</th><th>Lương</th><th>Trạng thái</th></tr></thead>
+            <tbody id="department-employees"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="employees-view" class="view">
+      <div class="section-heading">
+        <div><h2>Danh sách nhân viên</h2><p id="employee-count">Đang tải dữ liệu...</p></div>
+        <button id="add-employee" class="button primary">+ Thêm nhân viên</button>
+      </div>
+
+      <form id="employee-filters" class="filters">
+        <label class="control grow">Tìm kiếm
+          <input name="search" type="search" placeholder="Mã, họ tên hoặc phòng ban">
+        </label>
+        <label class="control">Phòng ban
+          <select name="departmentCode"><option value="">Tất cả</option></select>
+        </label>
+        <label class="control">Trạng thái
+          <select name="active"><option value="">Tất cả</option><option value="true">Đang làm việc</option><option value="false">Đã nghỉ việc</option></select>
+        </label>
+        <label class="control salary">Lương tối thiểu
+          <input name="minSalary" type="number" min="0" step="1000000" placeholder="0">
+        </label>
+        <label class="control salary">Lương tối đa
+          <input name="maxSalary" type="number" min="0" step="1000000" placeholder="Không giới hạn">
+        </label>
+        <label class="control">Sắp xếp
+          <select name="sort"><option value="employeeId">Mã nhân viên</option><option value="fullName">Họ tên</option><option value="departmentCode">Phòng ban</option><option value="salary">Lương</option></select>
+        </label>
+        <label class="control">Thứ tự
+          <select name="order"><option value="asc">Tăng dần</option><option value="desc">Giảm dần</option></select>
+        </label>
+        <button class="button filter-button" type="submit">Áp dụng</button>
+      </form>
+
+      <section class="panel table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mã</th><th>Nhân viên</th><th>Phòng ban</th><th>Chức vụ</th><th>Lương</th><th>Trạng thái</th><th class="actions">Thao tác</th></tr></thead>
+            <tbody id="employee-rows"></tbody>
+          </table>
+        </div>
+        <div class="pagination"><button id="previous-page" class="button secondary">Trước</button><span id="page-info">Trang 1</span><button id="next-page" class="button secondary">Sau</button></div>
+      </section>
+    </section>
+
+    <section id="projects-view" class="view">
+      <div class="section-heading"><div><h2>Danh mục dự án</h2><p>Ngân sách, quản lý và năng lực thực hiện.</p></div></div>
+      <form id="project-filters" class="filters project-filters">
+        <label class="control grow">Tìm kiếm
+          <input name="search" type="search" placeholder="Mã hoặc tên dự án">
+        </label>
+        <label class="control">Trạng thái
+          <select name="status"><option value="">Tất cả</option><option>In Progress</option><option>Completed</option><option>Planning</option></select>
+        </label>
+        <label class="control">Ngân sách
+          <select name="order"><option value="desc">Cao đến thấp</option><option value="asc">Thấp đến cao</option></select>
+        </label>
+        <button class="button filter-button" type="submit">Áp dụng</button>
+      </form>
+      <section class="panel table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mã</th><th>Dự án</th><th>Trạng thái</th><th>Ngân sách</th><th>Quản lý</th><th>Thành viên</th><th>Giờ/tuần</th><th></th></tr></thead>
+            <tbody id="project-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="employee-dialog" class="modal">
+    <form id="employee-form">
+      <div class="modal-heading"><div><p class="eyebrow">HỒ SƠ NHÂN SỰ</p><h2 id="employee-form-title">Thêm nhân viên</h2></div><button type="button" class="icon-button close-dialog" title="Đóng" aria-label="Đóng">×</button></div>
+      <div class="form-grid">
+        <label class="control">Mã nhân viên<input name="employeeId" required placeholder="E011"></label>
+        <label class="control">Họ và tên<input name="fullName" required></label>
+        <label class="control">Giới tính<select name="gender" required><option>Nam</option><option>Nữ</option><option>Khác</option></select></label>
+        <label class="control">Ngày sinh<input name="dateOfBirth" type="date" required></label>
+        <label class="control">Email<input name="email" type="email" required></label>
+        <label class="control">Số điện thoại<input name="phone" required></label>
+        <label class="control">Phòng ban<select name="departmentCode" required></select></label>
+        <label class="control">Chức vụ<input name="position" required></label>
+        <label class="control">Lương<input name="salary" type="number" min="0" required></label>
+        <label class="control">Ngày vào làm<input name="hireDate" type="date" required></label>
+        <label class="control full">Địa chỉ<input name="street" required placeholder="Số nhà, tên đường"></label>
+        <label class="control">Quận/huyện<input name="district" required></label>
+        <label class="control">Thành phố<input name="city" required></label>
+        <label class="control full">Kỹ năng<input name="skills" placeholder="Java, MongoDB, Docker"></label>
+        <label class="check full"><input name="active" type="checkbox" checked> Đang làm việc</label>
+      </div>
+      <div class="modal-actions"><button type="button" class="button secondary close-dialog">Hủy</button><button class="button primary" type="submit">Lưu nhân viên</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="detail-dialog" class="modal detail-modal">
+    <div class="modal-heading"><div><p class="eyebrow">CHI TIẾT NHÂN VIÊN</p><h2 id="detail-title"></h2></div><button type="button" class="icon-button close-detail" title="Đóng" aria-label="Đóng">×</button></div>
+    <div id="employee-detail"></div>
+  </dialog>
+
+  <dialog id="project-dialog" class="modal detail-modal">
+    <div class="modal-heading"><div><p class="eyebrow">CHI TIẾT DỰ ÁN</p><h2 id="project-title"></h2></div><button type="button" class="icon-button close-project" title="Đóng" aria-label="Đóng">×</button></div>
+    <div id="project-detail"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

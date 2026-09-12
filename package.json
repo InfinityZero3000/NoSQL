@@ -1,0 +1,14 @@
+{
+  "name": "hrm-mongodb",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bài tập tổng hợp MongoDB - ứng dụng quản lý nhân sự và dự án",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "seed": "mongosh --quiet scripts/01_create_database.js"
+  },
+  "dependencies": {
+    "mongodb": "^7.6.0"
+  }
+}

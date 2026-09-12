@@ -1,0 +1,30 @@
+[
+  {
+    "departmentCode": "IT",
+    "departmentName": "Công nghệ thông tin",
+    "location": "Tầng 3",
+    "phone": "101",
+    "active": true
+  },
+  {
+    "departmentCode": "HR",
+    "departmentName": "Nhân sự",
+    "location": "Tầng 2",
+    "phone": "102",
+    "active": true
+  },
+  {
+    "departmentCode": "SALE",
+    "departmentName": "Kinh doanh",
+    "location": "Tầng 4",
+    "phone": "103",
+    "active": true
+  },
+  {
+    "departmentCode": "ACC",
+    "departmentName": "Kế toán",
+    "location": "Tầng 2",
+    "phone": "104",
+    "active": true
+  }
+]

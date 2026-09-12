@@ -1,0 +1,58 @@
+[
+  {
+    "projectId": "P001",
+    "projectName": "Hệ thống quản lý đào tạo",
+    "startDate": { "$date": "2026-01-10T00:00:00.000Z" },
+    "endDate": { "$date": "2026-10-30T00:00:00.000Z" },
+    "budget": 500000000,
+    "status": "In Progress",
+    "managerId": "E003",
+    "members": [
+      { "employeeId": "E003", "role": "Project Manager", "joinDate": { "$date": "2026-01-10T00:00:00.000Z" }, "hoursPerWeek": 30 },
+      { "employeeId": "E001", "role": "Backend Developer", "joinDate": { "$date": "2026-01-15T00:00:00.000Z" }, "hoursPerWeek": 25 },
+      { "employeeId": "E008", "role": "Frontend Developer", "joinDate": { "$date": "2026-01-20T00:00:00.000Z" }, "hoursPerWeek": 20 }
+    ]
+  },
+  {
+    "projectId": "P002",
+    "projectName": "Cổng tuyển dụng trực tuyến",
+    "startDate": { "$date": "2026-03-01T00:00:00.000Z" },
+    "endDate": { "$date": "2026-12-15T00:00:00.000Z" },
+    "budget": 320000000,
+    "status": "In Progress",
+    "managerId": "E001",
+    "members": [
+      { "employeeId": "E001", "role": "Project Manager", "joinDate": { "$date": "2026-03-01T00:00:00.000Z" }, "hoursPerWeek": 25 },
+      { "employeeId": "E006", "role": "Business Analyst", "joinDate": { "$date": "2026-03-05T00:00:00.000Z" }, "hoursPerWeek": 15 },
+      { "employeeId": "E008", "role": "Frontend Developer", "joinDate": { "$date": "2026-03-10T00:00:00.000Z" }, "hoursPerWeek": 20 }
+    ]
+  },
+  {
+    "projectId": "P003",
+    "projectName": "Ứng dụng quản lý bán hàng",
+    "startDate": { "$date": "2025-05-10T00:00:00.000Z" },
+    "endDate": { "$date": "2025-12-20T00:00:00.000Z" },
+    "budget": 280000000,
+    "status": "Completed",
+    "managerId": "E005",
+    "members": [
+      { "employeeId": "E005", "role": "Project Manager", "joinDate": { "$date": "2025-05-10T00:00:00.000Z" }, "hoursPerWeek": 25 },
+      { "employeeId": "E003", "role": "Backend Developer", "joinDate": { "$date": "2025-05-15T00:00:00.000Z" }, "hoursPerWeek": 20 },
+      { "employeeId": "E004", "role": "Sales Consultant", "joinDate": { "$date": "2025-05-20T00:00:00.000Z" }, "hoursPerWeek": 10 }
+    ]
+  },
+  {
+    "projectId": "P004",
+    "projectName": "Hệ thống chấm công thông minh",
+    "startDate": { "$date": "2026-08-01T00:00:00.000Z" },
+    "endDate": { "$date": "2027-02-28T00:00:00.000Z" },
+    "budget": 450000000,
+    "status": "Planning",
+    "managerId": "E005",
+    "members": [
+      { "employeeId": "E005", "role": "Project Manager", "joinDate": { "$date": "2026-08-01T00:00:00.000Z" }, "hoursPerWeek": 20 },
+      { "employeeId": "E007", "role": "Data Analyst", "joinDate": { "$date": "2026-08-05T00:00:00.000Z" }, "hoursPerWeek": 15 },
+      { "employeeId": "E008", "role": "Frontend Developer", "joinDate": { "$date": "2026-08-10T00:00:00.000Z" }, "hoursPerWeek": 15 }
+    ]
+  }
+]
